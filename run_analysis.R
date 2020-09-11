@@ -4,7 +4,7 @@ fileurl <- 'https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%2
 filename <- 'data.zip'
 download.file(fileurl,destfile = paste('./data/',filename),method = 'curl')
 
-#unzip file and reading it
+#unzip file 
 if (!file.exists(paste('./data/',"UCI HAR Dataset"))) { 
   unzip(paste('./data/',filename),exdir = './data') 
 }
@@ -53,16 +53,16 @@ Data <- cbind(subject_data,Y_data,X_data)
 library(dplyr)
 TidyData1 <- Data %>% select(subject,code,contains('std'),contains('mean'))
 
-#Descriptive names to activities
+#Descriptive names to activities and factorize it
 TidyData1 <- TidyData1 %>%
   merge(activities_labels,by='code')
 TidyData1 <- TidyData1 %>%
   select(subject,activity,tBodyAcc.std...X:angle.Z.gravityMean.)
-TidyData1$activity <-as.factor(TidyData1$activity)
+TidyData1$activity <- as.factor(TidyData1$activity)
 
 #Adjusting variables names
+names <- names(TidyData1)
 
-names(TidyData1)[2] <- 'activity'
 names(TidyData1) <- gsub('Acc','Accelerometer',names(TidyData1))
 names(TidyData1) <- gsub('Gyro','Gyroscope',names(TidyData1))
 names(TidyData1) <- gsub('Mag','Magnitude',names(TidyData1))
@@ -87,11 +87,6 @@ write.table(TidyData1,file= './data/TidyData1.txt',col.names = TRUE)
 TidyData2 <- TidyData1 %>%
   group_by(subject, activity) %>%
   summarise(across(timeBodyAccelerometerSTD_X:timeBodyAccelerometerSTD_Z,mean))
-
-
-TidyData2 <- TidyData1 %>%
-  group_by(subject, activity) %>%
-  summarise_all(funs(mean))
 
 write.table(TidyData2,file= './data/TidyData2.txt',col.names = TRUE)
 

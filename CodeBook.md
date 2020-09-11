@@ -9,7 +9,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-#run_analysis.R script
+# run_analysis.R script
 It manages the data to create a tidy Data set as required by 
 the course project’s definition:
 

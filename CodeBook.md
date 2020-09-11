@@ -5,10 +5,10 @@ date: "11/09/2020"
 output: html_document
 ---
 
+<<<<<<< HEAD
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
 #run_analysis.R script
 It manages the data to create a tidy Data set as required by 
 the course project’s definition:
